@@ -45,7 +45,11 @@ class Network {
     while (count < maxCount && retryCount > 0) {
       try {
         json = await http.read(eventAllEventsAfterDateURL(date, skip: count));
+
+        // Compute doesn't work properly here. If we enable this method, the memory goes out of control.
+        // Please see repo issue regarding this problem: https://github.com/vectorlit/unofficial_gencon_mobile/issues/1
         // currentEvents = await compute(eventModelListFromJson, json);
+
         currentEvents = await EventModel.fromJsonArray(json);
         count += currentEvents.length;
         print("count: $count ");
